@@ -125,7 +125,7 @@ def main() -> int:
             dt = now - prev
             prev = now
             if dt > 0:
-                fps = 0.9 * fps + 0.1 * (1.0 / dt)
+                fps = 0.9 * fps + 0.1 * (1.0 / dt) if fps else 1.0 / dt
 
             draw_hud(out, mode.name, fps, show_help)
             cv2.imshow(window, out)
