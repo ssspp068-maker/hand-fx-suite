@@ -78,8 +78,17 @@ def main() -> int:
             "Run: python scripts/download_models.py"
         )
 
-    tracker = HandTracker(hand_model)
-    segmenter = PersonSegmenter(person_model)
+    try:
+        tracker = HandTracker(hand_model)
+        segmenter = PersonSegmenter(person_model)
+    except AttributeError as exc:
+        if "free" in str(exc).lower():
+            raise SystemExit(
+                "MediaPipe broken (function 'free' not found).\n"
+                "Fix: delete the .venv folder, then run run.bat again.\n"
+                "Need mediapipe>=0.10.31 (not 0.10.30)."
+            ) from exc
+        raise
 
     modes = {
         1: PortalMode(),
